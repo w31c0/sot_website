@@ -471,3 +471,7 @@ li.crew-selected strong {
   color: #aaffc3;
   text-shadow: 0 0 12px #3be07acc;
 }
+
+.islands-list-section {
+  margin-top: 48px !important;
+}
