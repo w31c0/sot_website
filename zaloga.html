@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Załoga | Sea of Thieves</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="icon.png" type="image/png" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div id="loginArea" style="display:inline-block;margin-right:16px;"></div>
+      <ul>
+        <li><a href="index.html">Strona główna</a></li>
+        <li><a href="sesje.html">Sesje</a></li>
+        <li><a href="zaloga.html">Załoga</a></li>
+        <li><a href="ogloszenia.html">Ogłoszenia</a></li>
+        <li><a href="informacje.html">Informacje</a></li>
+        <li><a href="cele.html">Cele</a></li>
+      </ul>
+      <div id="clock" style="margin-left:auto;padding-right:32px;font-size:1.18em;font-weight:700;color:#ffe08a;letter-spacing:1px;min-width:110px;text-align:right;"></div>
+    </nav>
+    <main>
+      <h1 class="main-title">Załoga</h1>
+      <section>
+        <h2>Lista załogi</h2>
+        <ul id="crewList"></ul>
+      </section>
+    </main>
+    <script>
+      function updateClock() {
+        const clock = document.getElementById('clock');
+        if (!clock) return;
+        const now = new Date();
+        const pad = n => n.toString().padStart(2, '0');
+        const timeStr = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+        clock.innerHTML = `<span style="margin-right:10px;opacity:.7;filter:drop-shadow(0 0 2px #f0a50088)">🕒</span>${timeStr}`;
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+    </script>
+  </body>
+</html>

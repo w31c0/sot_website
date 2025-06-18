@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sea of Thieves</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="icon.png" type="image/png" />
+    <script defer src="script.js"></script>
+    <!-- Discord/OG/Twitter preview meta tags -->
+    <meta property="og:title" content="SOT helper dla cweli" />
+    <meta property="og:description" content="Od wiesia dla cweli <3" />
+    <meta property="og:image" content="https://sot.weico.online/icon.png" />
+    <meta property="og:url" content="https://sot.weico.online" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SOT" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SOT helper dla cweli" />
+    <meta name="twitter:description" content="Od wiesia dla cweli <3" />
+    <meta name="twitter:image" content="https://sot.weico.online/icon.png" />
+    <meta name="twitter:url" content="https://sot.weico.online" />
+    <style>
+      html, body {
+        height: auto;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        background: var(--bg-main);
+        color: var(--text-main);
+        font-family: 'Segoe UI', 'Montserrat', 'Tahoma', Geneva, Verdana, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        position: relative;
+        overflow-x: hidden;
+        /* USUNIĘTO overflow-y: auto/scroll */
+      }
+      /* ...existing code... */
+    </style>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div id="loginArea" style="display:inline-block;margin-right:16px;"></div>
+      <ul>
+        <li><a href="index.html">Strona główna</a></li>
+        <li><a href="sesje.html">Sesje</a></li>
+        <li><a href="zaloga.html">Załoga</a></li>
+        <li><a href="ogloszenia.html">Ogłoszenia</a></li>
+        <li><a href="informacje.html">Informacje</a></li>
+        <li><a href="cele.html">Cele</a></li>
+      </ul>
+      <div id="clock" style="margin-left:auto;padding-right:32px;font-size:1.18em;font-weight:700;color:#ffe08a;letter-spacing:1px;min-width:110px;text-align:right;"></div>
+    </nav>
+    <main>
+      <h1 class="main-title">Dashboard</h1>
+      <div class="main-row">
+        <section class="left">
+          <h2>Następna sesja</h2>
+          <p><strong>Start:</strong> <span id="sessionStart"></span></p>
+          <p><strong>Cel:</strong> <span id="sessionGoal"></span></p>
+          <p><strong>Start za:</strong> <span id="countdown"></span></p>
+          <button id="showSessionsBtn">Pokaż poprzednie sesje</button>
+        </section>
+        <section class="right">
+          <h2>Spis załogi</h2>
+          <ul id="crewList"></ul>
+        </section>
+      </div>
+      <div id="announcements">
+        <h2>📢 Ogłoszenia</h2>
+        <ul id="announcementList"></ul>
+      </div>
+    </main>
+    <div id="modal" class="modal">
+      <div class="modalContent">
+        <button id="closeModal">Zamknij</button>
+        <h2>Poprzednie sesje</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Data i godzina</th>
+              <th>Czas (min)</th>
+              <th>
+                Gold
+                <img src="Gold.webp" alt="Gold" style="height:1em;vertical-align:middle;margin-left:2px;">
+              </th>
+              <th>
+                Doubloons
+                <img src="Doubloon.webp" alt="Doubloons" style="height:1em;vertical-align:middle;margin-left:2px;">
+              </th>
+              <th>
+                Ancient Coins
+                <img src="AncientCoin.webp" alt="Ancient Coins" style="height:1em;vertical-align:middle;margin-left:2px;">
+              </th>
+            </tr>
+          </thead>
+          <tbody id="sessionsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      function updateClock() {
+        const clock = document.getElementById('clock');
+        if (!clock) return;
+        const now = new Date();
+        const pad = n => n.toString().padStart(2, '0');
+        const timeStr = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+        clock.innerHTML = `<span style="margin-right:10px;opacity:.7;filter:drop-shadow(0 0 2px #f0a50088)">🕒</span>${timeStr}`;
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+    </script>
+  </body>
+</html>

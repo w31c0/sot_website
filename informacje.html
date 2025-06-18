@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Informacje | Sea of Thieves</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="icon.png" type="image/png" />
+    <script defer src="script.js"></script>
+    <style>
+      .info-food-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        justify-content: center;
+        margin: 0 0 24px 0;
+        padding: 0;
+        list-style: none;
+      }
+      .info-food-list li {
+        background: var(--bg-glass);
+        border-radius: 12px;
+        box-shadow: 0 2px 10px #0007;
+        padding: 18px 26px 14px 26px;
+        margin: 0;
+        font-size: 1.13em;
+        min-width: 180px;
+        max-width: 260px;
+        flex: 1 1 180px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+      }
+      .info-food-banana { color: #ffe08a; }
+      .info-food-coconut { color: #b97fff; }
+      .info-food-pomegranate { color: #ff7f7f; }
+      .info-food-mango { color: #ffb347; }
+      .info-food-pineapple { color: #3be07a; }
+      .info-food-meat { color: #ffb347; }
+      .info-food-meat2 { color: #ff4f4f; }
+      .info-food-fish { color: #3be07a; }
+      .info-food-fish2 { color: #b97fff; }
+      .info-warning {
+        margin-top: 18px;
+        font-size: 1.08em;
+        color: #bdbdbd;
+        text-align: center;
+      }
+      .info-section-title {
+        color: #ffe08a;
+        text-shadow: 0 0 8px #f0a50099;
+        margin-bottom: 18px;
+        text-align: center;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .info-voyages {
+        background: var(--bg-glass-strong);
+        box-shadow: 0 2px 18px #000a;
+        border-radius: var(--border-radius);
+        padding: 28px 24px 20px 24px;
+        max-width: 1000px;
+        margin: 0 auto 36px auto;
+      }
+      .info-voyages-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 12px;
+        background: var(--bg-glass);
+        border-radius: 14px;
+        box-shadow: 0 2px 12px #0007;
+        overflow: hidden;
+        font-size: 1.08em;
+        max-width: 100%;
+      }
+      .info-voyages-table th,
+      .info-voyages-table td {
+        padding: 14px 16px;
+        text-align: left;
+        border: none;
+      }
+      .info-voyages-table th {
+        background: linear-gradient(90deg, #23233a 80%, #2d2d44 100%);
+        color: var(--accent-gold);
+        font-weight: 800;
+        text-shadow: 0 0 6px #f0a50077;
+        border-bottom: 2px solid var(--accent-gold);
+      }
+      .info-voyages-table td {
+        background: #1c1c2a;
+        border-bottom: 1px solid #23233a;
+        vertical-align: middle;
+      }
+      .voyage-frak-gold { color: #ffe08a; font-weight: 700; }
+      .voyage-frak-souls { color: #b97fff; font-weight: 700; }
+      .voyage-frak-merchant { color: #3be07a; font-weight: 700; }
+      .voyage-frak-athena { color: #00e0e0; font-weight: 700; }
+      .voyage-frak-reaper { color: #ff4f4f; font-weight: 700; }
+      .voyage-easy { color: #ffe08a; font-weight: 700; }
+      .voyage-medium { color: #3be07a; font-weight: 700; }
+      .voyage-hard { color: #ff4f4f; font-weight: 700; }
+      .voyage-profit-low { color: #b97fff; font-weight: 700; }
+      .voyage-profit-mid { color: #3be07a; font-weight: 700; }
+      .voyage-profit-high { color: #ffe08a; font-weight: 700; }
+      .voyage-profit-very { color: #ffb347; font-weight: 700; }
+      .voyage-profit-none { color: #bdbdbd; font-weight: 700; }
+      .info-voyages-table tr:nth-child(even) td {
+        background: #23233a;
+      }
+      .info-voyages-table tr:hover td {
+        background: #23233a;
+        color: #ffe08a;
+        transition: background 0.2s, color 0.2s;
+      }
+      .sot-map-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 32px auto 36px auto;
+        max-width: 1000px;
+        background: var(--bg-glass-strong);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 18px #000a;
+        padding: 24px 16px 18px 16px;
+      }
+      .sot-map-container img {
+        max-width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 2px 18px #000a;
+        margin-bottom: 12px;
+      }
+      .sot-map-caption {
+        color: #ffe08a;
+        font-size: 1.13em;
+        text-align: center;
+        margin-bottom: 0;
+        text-shadow: 0 0 8px #f0a50099;
+      }
+      .islands-list-section {
+        background: var(--bg-glass-strong);
+        box-shadow: 0 2px 18px #000a;
+        border-radius: var(--border-radius);
+        padding: 28px 24px 20px 24px;
+        max-width: 1000px;
+        margin: 0 auto 36px auto;
+      }
+      .islands-list-section h2 {
+        color: #ffe08a;
+        text-shadow: 0 0 8px #f0a50099;
+        margin-bottom: 18px;
+        text-align: center;
+      }
+      .islands-columns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 32px;
+        justify-content: center;
+      }
+      .islands-col {
+        flex: 1 1 220px;
+        min-width: 180px;
+        max-width: 260px;
+      }
+      .islands-col ul {
+        margin: 0 0 12px 0;
+        padding: 0 0 0 18px;
+        color: #ffe08a;
+        font-size: 1.08em;
+      }
+      .islands-col li {
+        margin-bottom: 7px;
+        color: #e0e0e0;
+        letter-spacing: 0.2px;
+      }
+      main {
+        max-width: 1100px;
+        margin: 0 auto 0 auto;
+        padding: 0 12px 40px 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .toc-container {
+        position: fixed;
+        top: 100px;
+        right: 32px;
+        width: 240px;
+        background: var(--bg-glass-strong);
+        border-radius: 14px;
+        box-shadow: 0 2px 18px #000a;
+        padding: 22px 18px 18px 18px;
+        z-index: 100;
+        font-size: 1.08em;
+        color: var(--accent-gold);
+        border: 1.5px solid #23233a;
+        max-width: 90vw;
+        transition: box-shadow 0.2s;
+      }
+      .toc-container h3 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        font-size: 1.13em;
+        color: var(--accent-gold);
+        text-shadow: 0 0 6px #f0a50077;
+        font-weight: 800;
+        letter-spacing: 1px;
+      }
+      .toc-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .toc-list li {
+        margin-bottom: 10px;
+      }
+      .toc-list a {
+        color: #ffe08a;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.18s;
+        cursor: pointer;
+        padding: 2px 0;
+        display: block;
+        border-radius: 6px;
+      }
+      .toc-list a:hover,
+      .toc-list a:focus {
+        color: #3be07a;
+        background: #23233a;
+      }
+      @media (max-width: 1200px) {
+        .toc-container {
+          right: 4vw;
+        }
+      }
+      @media (max-width: 900px) {
+        .toc-container {
+          position: static;
+          width: 100%;
+          margin: 0 0 24px 0;
+          box-shadow: 0 2px 8px #0007;
+        }
+        #islandsScroll {
+          max-height: 260px;
+        }
+      }
+      @media (max-width: 1000px) {
+        main {
+          max-width: 100vw;
+          padding: 0 2vw 40px 2vw;
+        }
+        .islands-list-section,
+        .info-voyages,
+        section.info-food,
+        section.info-food-list,
+        .info-food-list {
+          max-width: 100vw;
+        }
+      }
+      html, body {
+        height: auto;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        background: var(--bg-main);
+        color: var(--text-main);
+        font-family: 'Segoe UI', 'Montserrat', 'Tahoma', Geneva, Verdana, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        position: relative;
+        overflow-x: hidden;
+      }
+      #islandsScroll {
+        max-height: 340px;
+        overflow-y: auto;
+        padding-right: 8px;
+      }
+      .dmg-low { color: #b97fff; font-weight: 700; }
+      .dmg-mid { color: #ffe08a; font-weight: 700; }
+      .dmg-high { color: #ff4f4f; font-weight: 700; }
+      .reload-fast { color: #3be07a; font-weight: 700; }
+      .reload-mid { color: #ffe08a; font-weight: 700; }
+      .reload-slow { color: #ff4f4f; font-weight: 700; }
+    </style>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div id="loginArea" style="display:inline-block;margin-right:16px;"></div>
+      <ul>
+        <li><a href="index.html">Strona główna</a></li>
+        <li><a href="sesje.html">Sesje</a></li>
+        <li><a href="zaloga.html">Załoga</a></li>
+        <li><a href="ogloszenia.html">Ogłoszenia</a></li>
+        <li><a href="informacje.html">Informacje</a></li>
+        <li><a href="cele.html">Cele</a></li>
+      </ul>
+      <div id="clock" style="margin-left:auto;padding-right:32px;font-size:1.18em;font-weight:700;color:#ffe08a;letter-spacing:1px;min-width:110px;text-align:right;"></div>
+    </nav>
+    <div class="toc-container">
+      <h3>Spis treści</h3>
+      <ul class="toc-list">
+        <li><a href="#islands-section">🗺️ Spis wysp</a></li>
+        <li><a href="#food-section">🍌 Jedzenie i leczenie</a></li>
+        <li><a href="#voyages-section">⚓ Typy zleceń (Voyages)</a></li>
+        <li><a href="#weapons-section">⚔️ Broń i statystyki</a></li>
+      </ul>
+    </div>
+    <main>
+      <section class="islands-list-section" id="islands-section">
+        <h2>Spis wysp z lokalizacją na mapie</h2>
+        <button onclick="window.open('https://static.wikia.nocookie.net/seaofthieves5135/images/e/ee/Sot_beta_map.jpg/revision/latest?cb=20180129211104','_blank')" style="display:block;margin:0 auto 18px auto;padding:10px 28px;font-size:1.1em;font-weight:700;background:linear-gradient(90deg,#ffe08a 60%,#b97fff 100%);color:#23233a;border:none;border-radius:10px;box-shadow:0 2px 12px #0007;cursor:pointer;transition:background 0.18s;">
+          Otwórz pełną mapę Sea of Thieves
+        </button>
+        <input type="text" id="islandSearch" placeholder="Szukaj wyspy..." style="width:100%;max-width:400px;margin:0 auto 18px auto;display:block;padding:10px 14px;font-size:1.1em;border-radius:8px;border:1.5px solid #23233a;background:#181825;color:#ffe08a;box-shadow:0 2px 8px #0007;">
+        <div id="islandsScroll">
+          <div class="islands-columns" id="islandsColumns">
+            <div class="islands-col">
+              <ul>
+                <li><strong>A</strong></li>
+                <li>Ancient Spire Outpost <span style="color:#ffe08a;">Q17</span></li>
+                <li>Ashen Reaches <span style="color:#ffe08a;">V23</span></li>
+                <li><strong>B</strong></li>
+                <li>Barnacle Cay <span style="color:#ffe08a;">O15</span></li>
+                <li>Black Sand Atoll <span style="color:#ffe08a;">O3</span></li>
+                <li>Black Water Enclave <span style="color:#ffe08a;">R5</span></li>
+                <li>Blind Man's Lagoon <span style="color:#ffe08a;">N6</span></li>
+                <li>Booty Isle <span style="color:#ffe08a;">K20</span></li>
+                <li>Boulder Cay <span style="color:#ffe08a;">G5</span></li>
+                <li>Brian's Bazaar <span style="color:#ffe08a;">Y12</span></li>
+                <li>Brimstone Rock <span style="color:#ffe08a;">Y18</span></li>
+                <li><strong>C</strong></li>
+                <li>Cannon Cove <span style="color:#ffe08a;">G10</span></li>
+                <li>Castaway Isle <span style="color:#ffe08a;">K14</span></li>
+                <li>Chicken Isle <span style="color:#ffe08a;">I16</span></li>
+                <li>Cinder Islet <span style="color:#ffe08a;">U14</span></li>
+                <li>Crescent Isle <span style="color:#ffe08a;">B9</span></li>
+                <li>Crook's Hollow <span style="color:#ffe08a;">M16</span></li>
+                <li>Cursewater Shores <span style="color:#ffe08a;">Y13</span></li>
+                <li>Cutlass Cay <span style="color:#ffe08a;">M18</span></li>
+                <li><strong>D</strong></li>
+                <li>Dagger Tooth Outpost <span style="color:#ffe08a;">M8</span></li>
+                <li>Devil's Ridge <span style="color:#ffe08a;">P19</span></li>
+                <li>Discovery Ridge <span style="color:#ffe08a;">E17</span></li>
+                <li><strong>F</strong></li>
+                <li>Fetcher's Rest <span style="color:#ffe08a;">V12</span></li>
+                <li>Flame's End <span style="color:#ffe08a;">V19</span></li>
+                <li>Flintlock Peninsula <span style="color:#ffe08a;">W14</span></li>
+                <li>Fools Lagoon <span style="color:#ffe08a;">I14</span></li>
+                <li>Fort Of The Damned <span style="color:#ffe08a;">L14</span></li>
+                <li><strong>G</strong></li>
+                <li>Galleon's Grave Outpost <span style="color:#ffe08a;">R8</span></li>
+                <li>Glowstone Cay <span style="color:#ffe08a;">Z18</span></li>
+                <li>Golden Sands Outpost <span style="color:#ffe08a;">D10</span></li>
+                <li><strong>H</strong></li>
+                <li>Hidden Spring Keep <span style="color:#ffe08a;">I8</span></li>
+                <li><strong>I</strong></li>
+                <li>Isle of Last Words <span style="color:#ffe08a;">O9</span></li>
+                <li><strong>K</strong></li>
+                <li>Keel Haul Fort <span style="color:#ffe08a;">C6</span></li>
+                <li>Kraken Watchtower <span style="color:#ffe08a;">L6</span></li>
+                <li>Kraken's Fall <span style="color:#ffe08a;">R12</span></li>
+              </ul>
+            </div>
+            <div class="islands-col">
+              <ul>
+                <li><strong>L</strong></li>
+                <li>Lagoon of Whispers <span style="color:#ffe08a;">D12</span></li>
+                <li>Liar's Backbone <span style="color:#ffe08a;">S11</span></li>
+                <li>Lone Cove <span style="color:#ffe08a;">H6</span></li>
+                <li>Lonely Isle <span style="color:#ffe08a;">G8</span></li>
+                <li>Lookout Point <span style="color:#ffe08a;">I20</span></li>
+                <li>Lost Gold Fort <span style="color:#ffe08a;">H17</span></li>
+                <li><strong>M</strong></li>
+                <li>Magma's Tide <span style="color:#ffe08a;">Y20</span></li>
+                <li>Marauder's Arch <span style="color:#ffe08a;">Q3</span></li>
+                <li>Mermaid's Hideaway <span style="color:#ffe08a;">B13</span></li>
+                <li>Molten Sands Fortress <span style="color:#ffe08a;">Z11</span></li>
+                <li>Morrow's Peak Outpost <span style="color:#ffe08a;">V17</span></li>
+                <li>Mutineer Rock <span style="color:#ffe08a;">N19</span></li>
+                <li><strong>O</strong></li>
+                <li>Old Faithful Isle <span style="color:#ffe08a;">M4</span></li>
+                <li>Old Salts Atoll <span style="color:#ffe08a;">F18</span></li>
+                <li><strong>P</strong></li>
+                <li>Paradise Spring <span style="color:#ffe08a;">L17</span></li>
+                <li>Picaroon Palms <span style="color:#ffe08a;">I4</span></li>
+                <li>Plunder Outpost <span style="color:#ffe08a;">J18</span></li>
+                <li>Plunder Valley <span style="color:#ffe08a;">G16</span></li>
+                <li>Plunderer's Plight <span style="color:#ffe08a;">Q6</span></li>
+                <li><strong>R</strong></li>
+                <li>Rapier Cay <span style="color:#ffe08a;">D8</span></li>
+                <li>Roaring Sands <span style="color:#ffe08a;">U21</span></li>
+                <li>Roaring Traders <span style="color:#ffe08a;">U20</span></li>
+                <li>Ruby's Fall <span style="color:#ffe08a;">Y16</span></li>
+                <li>Rum Runner Isle <span style="color:#ffe08a;">H9</span></li>
+              </ul>
+            </div>
+            <div class="islands-col">
+              <ul>
+                <li><strong>S</strong></li>
+                <li>Sailor's Bounty <span style="color:#ffe08a;">C4</span></li>
+                <li>Sailor's Knot Stronghold <span style="color:#ffe08a;">E14</span></li>
+                <li>Salty Sands <span style="color:#ffe08a;">G4</span></li>
+                <li>Sanctuary Outpost <span style="color:#ffe08a;">F7</span></li>
+                <li>Sandy Shallows <span style="color:#ffe08a;">D5</span></li>
+                <li>Scorched Pass <span style="color:#ffe08a;">X11</span></li>
+                <li>Scurvy Isley <span style="color:#ffe08a;">K4</span></li>
+                <li>Sea Dog's Rest <span style="color:#ffe08a;">C11</span></li>
+                <li>Shark Bait Cove <span style="color:#ffe08a;">H19</span></li>
+                <li>Shark Fin Camp <span style="color:#ffe08a;">P5</span></li>
+                <li>Shark Tooth Key <span style="color:#ffe08a;">P13</span></li>
+                <li>Shipwreck Bay <span style="color:#ffe08a;">M10</span></li>
+                <li>Shiver Retreat <span style="color:#ffe08a;">Q11</span></li>
+                <li>Skull Keep <span style="color:#ffe08a;">P9</span></li>
+                <li>Smugglers' Bay <span style="color:#ffe08a;">F3</span></li>
+                <li>Snake Island <span style="color:#ffe08a;">K16</span></li>
+                <li>Stephen's Spoils <span style="color:#ffe08a;">L15</span></li>
+                <li><strong>T</strong></li>
+                <li>The Crooked Masts <span style="color:#ffe08a;">O11</span></li>
+                <li>The Crow's Nest Fortress <span style="color:#ffe08a;">O17</span></li>
+                <li>The Devil's Thirst <span style="color:#ffe08a;">W21</span></li>
+                <li>The Finest Trading Post <span style="color:#ffe08a;">F17</span></li>
+                <li>The Forsaken Brink <span style="color:#ffe08a;">U16</span></li>
+                <li>The North Star Seapost <span style="color:#ffe08a;">H10</span></li>
+                <li>The Reaper's Hideout <span style="color:#ffe08a;">I12</span></li>
+                <li>The Spoils of Plenty Store <span style="color:#ffe08a;">B7</span></li>
+                <li>The Sunken Grove <span style="color:#ffe08a;">P7</span></li>
+                <li>The Wild Treasure Store <span style="color:#ffe08a;">O4</span></li>
+                <li>Thieves' Haven <span style="color:#ffe08a;">L20</span></li>
+                <li>Three Paces East Seapost <span style="color:#ffe08a;">S9</span></li>
+                <li>Tri-Rock Isle <span style="color:#ffe08a;">R10</span></li>
+                <li>Twin Groves <span style="color:#ffe08a;">H11</span></li>
+                <li><strong>W</strong></li>
+                <li>Wanderers Refuge <span style="color:#ffe08a;">F12</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="info-warning" style="margin-top:12px;">
+          <em>Pełna lista i opisy: <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2301677411" target="_blank" rel="noopener" style="color:#ffe08a;">Steam Community – Spis wysp</a></em>
+        </div>
+      </section>
+      <section class="info-food" id="food-section" style="width:100%;max-width:900px;margin:0 auto 36px auto;">
+        <h2 class="info-section-title">🍌 Jedzenie i leczenie</h2>
+        <ul class="info-food-list">
+          <li class="info-food-banana">
+            <strong>Banana</strong><br>
+            Przywraca 20% HP<br>
+            1 kęs
+          </li>
+          <li class="info-food-coconut">
+            <strong>Coconut</strong><br>
+            Przywraca 30% HP<br>
+            1 kęs
+          </li>
+          <li class="info-food-pomegranate">
+            <strong>Pomegranate</strong><br>
+            Przywraca 40% HP<br>
+            1 kęs
+          </li>
+          <li class="info-food-mango">
+            <strong>Mango</strong><br>
+            Przywraca 50% HP<br>
+            1 kęs
+          </li>
+          <li class="info-food-pineapple">
+            <strong>Pineapple</strong><br>
+            Przywraca 100% HP<br>
+            2 kęsy
+          </li>
+          <li class="info-food-meat">
+            <strong>Mięso (Shark, Snake, Chicken, Pork)</strong><br>
+            Przywraca 50% HP<br>
+            2 kęsy<br>
+            <span style="color:#3be07a;">Regeneracja HP po zjedzeniu</span>
+          </li>
+          <li class="info-food-meat2">
+            <strong>Mięso (Kraken, Megalodon)</strong><br>
+            Przywraca 100% HP<br>
+            2 kęsy<br>
+            <span style="color:#3be07a;">Regeneracja HP po zjedzeniu</span>
+          </li>
+          <li class="info-food-fish">
+            <strong>Ryba (zwykła)</strong><br>
+            Przywraca 30% HP<br>
+            2 kęsy<br>
+            <span style="color:#3be07a;">Regeneracja HP po zjedzeniu</span>
+          </li>
+          <li class="info-food-fish2">
+            <strong>Ryba (trophy fish)</strong><br>
+            Przywraca 75% HP<br>
+            2 kęsy<br>
+            <span style="color:#3be07a;">Regeneracja HP po zjedzeniu</span>
+          </li>
+        </ul>
+        <div class="info-warning">
+          <em>Uwaga:</em> Aby uzyskać efekt regeneracji zdrowia, mięso i ryby muszą być ugotowane. Surowe lub spalone jedzenie nie daje tego efektu i może powodować wymioty.
+        </div>
+      </section>
+      <section class="info-voyages" id="voyages-section">
+        <h2 class="info-section-title">🗺️ Wszystkie typy zleceń (Voyages) w Sea of Thieves</h2>
+        <table class="info-voyages-table">
+          <thead>
+            <tr>
+              <th>Typ zlecenia</th>
+              <th>Frakcja</th>
+              <th>Opis</th>
+              <th>Trudność</th>
+              <th>Opłacalność</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Buried Treasure</td>
+              <td><span class="voyage-frak-gold">Gold Hoarders</span></td>
+              <td>Wykopywanie skarbów na podstawie mapy lub wskazówek.</td>
+              <td><span class="voyage-easy">Łatwa</span></td>
+              <td><span class="voyage-profit-low">Niska</span></td>
+            </tr>
+            <tr>
+              <td>Riddle</td>
+              <td><span class="voyage-frak-gold">Gold Hoarders</span></td>
+              <td>Rozwiązywanie zagadek na wyspach, aby znaleźć skarb.</td>
+              <td><span class="voyage-easy">Łatwa</span></td>
+              <td><span class="voyage-profit-low">Niska</span></td>
+            </tr>
+            <tr>
+              <td>Treasure Vault</td>
+              <td><span class="voyage-frak-gold">Gold Hoarders</span></td>
+              <td>Otwieranie skarbców po zdobyciu klucza, dużo skarbów w krótkim czasie.</td>
+              <td><span class="voyage-medium">Średnia</span></td>
+              <td><span class="voyage-profit-mid">Dobra</span></td>
+            </tr>
+            <tr>
+              <td>Bounty</td>
+              <td><span class="voyage-frak-souls">Order of Souls</span></td>
+              <td>Pokonywanie kapitanów szkieletów i dostarczanie czaszek.</td>
+              <td><span class="voyage-easy">Łatwa</span></td>
+              <td><span class="voyage-profit-mid">Zmienna</span></td>
+            </tr>
+            <tr>
+              <td>Ghost Ship Battle</td>
+              <td><span class="voyage-frak-souls">Order of Souls</span></td>
+              <td>Walka z flotą duchów, zdobywanie czaszek duchów.</td>
+              <td><span class="voyage-medium">Średnia</span></td>
+              <td><span class="voyage-profit-mid">Przeciętna</span></td>
+            </tr>
+            <tr>
+              <td>Cargo Run</td>
+              <td><span class="voyage-frak-merchant">Merchant Alliance</span></td>
+              <td>Dostarczanie delikatnych ładunków (np. rośliny, tkaniny, rum) w dobrym stanie.</td>
+              <td><span class="voyage-easy">Łatwa</span></td>
+              <td><span class="voyage-profit-low">Niska</span></td>
+            </tr>
+            <tr>
+              <td>Animal Delivery</td>
+              <td><span class="voyage-frak-merchant">Merchant Alliance</span></td>
+              <td>Łapanie i dostarczanie zwierząt (kurczaki, świnie, węże) na czas.</td>
+              <td><span class="voyage-easy">Łatwa</span></td>
+              <td><span class="voyage-profit-low">Niska</span></td>
+            </tr>
+            <tr>
+              <td>Lost Shipment</td>
+              <td><span class="voyage-frak-merchant">Merchant Alliance</span></td>
+              <td>Odnajdywanie wraków statków i dostarczanie manifestów oraz ładunków.</td>
+              <td><span class="voyage-medium">Średnia</span></td>
+              <td><span class="voyage-profit-mid">Dobra</span></td>
+            </tr>
+            <tr>
+              <td>Medley</td>
+              <td><span class="voyage-frak-merchant">Merchant Alliance</span></td>
+              <td>Mieszane zadania (cargo, zwierzęta, wraki), dłuższe, ale opłacalne.</td>
+              <td><span class="voyage-easy">Łatwa</span></td>
+              <td><span class="voyage-profit-mid">Dobra</span></td>
+            </tr>
+            <tr>
+              <td>Athena's Fortune Voyage</td>
+              <td><span class="voyage-frak-athena">Athena's Fortune</span></td>
+              <td>Zaawansowane, długie zlecenia dla Pirate Legends, łączące elementy różnych frakcji.</td>
+              <td><span class="voyage-hard">Trudna</span></td>
+              <td><span class="voyage-profit-very">Bardzo wysoka</span></td>
+            </tr>
+            <tr>
+              <td>Legend of the Veil</td>
+              <td><span class="voyage-frak-athena">Athena's Fortune</span></td>
+              <td>Unikalny, wieloetapowy voyage dla Pirate Legends, zagadki, walka z duchami i bossami.</td>
+              <td><span class="voyage-hard">Trudna</span></td>
+              <td><span class="voyage-profit-very">Bardzo wysoka</span></td>
+            </tr>
+            <tr>
+              <td>Reaper's Bones Stolen Goods</td>
+              <td><span class="voyage-frak-reaper">Reaper's Bones</span></td>
+              <td>Oddawanie skradzionych skarbów dowolnego typu. Liczy się PvP i kradzież.</td>
+              <td><span class="voyage-medium">Średnia</span></td>
+              <td><span class="voyage-profit-high">Wysoka</span></td>
+            </tr>
+            <tr>
+              <td>Reaper's Bounty Hunt</td>
+              <td><span class="voyage-frak-reaper">Reaper's Bones</span></td>
+              <td>Polowanie na skrzynie Reaper's Bounty i Reaper's Chest, PvP, duże nagrody.</td>
+              <td><span class="voyage-hard">Trudna</span></td>
+              <td><span class="voyage-profit-very">Bardzo wysoka</span></td>
+            </tr>
+            <tr>
+              <td>Emissary Quest</td>
+              <td>
+                <span class="voyage-frak-gold">Gold Hoarders</span>,
+                <span class="voyage-frak-souls">Order of Souls</span>,
+                <span class="voyage-frak-merchant">Merchant Alliance</span>,
+                <span class="voyage-frak-athena">Athena's Fortune</span>,
+                <span class="voyage-frak-reaper">Reaper's Bones</span>
+              </td>
+              <td>Specjalne, bardzo opłacalne zlecenia dostępne po osiągnięciu 5 poziomu flagi Emissary dla danej frakcji.</td>
+              <td><span class="voyage-hard">Trudna</span></td>
+              <td><span class="voyage-profit-very">Bardzo wysoka</span></td>
+            </tr>
+            <tr>
+              <td>Hunter's Call Delivery</td>
+              <td style="color:#ffb347;font-weight:700;">Hunter's Call</td>
+              <td>Dostarczanie ryb, mięsa i rzadkich przedmiotów. Brak klasycznych voyage, liczy się łowienie i polowanie.</td>
+              <td><span class="voyage-easy">Łatwa</span></td>
+              <td><span class="voyage-profit-mid">Zmienna</span></td>
+            </tr>
+            <tr>
+              <td>Sea Fort Raid</td>
+              <td style="color:#ffe08a;font-weight:700;">Neutralne</td>
+              <td>Atakowanie i czyszczenie fortów morskich (Sea Forts) – szybkie, solo-friendly, umiarkowane nagrody.</td>
+              <td><span class="voyage-easy">Łatwa</span></td>
+              <td><span class="voyage-profit-mid">Przeciętna</span></td>
+            </tr>
+            <tr>
+              <td>World Event (Skeleton Fort, Fleet, Flameheart, Ashen Winds, Fort of the Damned, Fort of Fortune, Kraken, Megalodon, Skeleton Sloop/Brig)</td>
+              <td style="color:#ffe08a;font-weight:700;">Wydarzenia światowe</td>
+              <td>Duże wydarzenia PvE na mapie, dostępne dla wszystkich załóg. Największe nagrody, ale też największe ryzyko PvP.</td>
+              <td><span class="voyage-hard">Trudna</span></td>
+              <td><span class="voyage-profit-very">Bardzo wysoka</span></td>
+            </tr>
+            <tr>
+              <td>Legendary Search for the Skull of Destiny</td>
+              <td><span class="voyage-frak-athena">Athena's Fortune</span></td>
+              <td>Specjalny voyage pozwalający zdobyć Skull of Destiny do aktywacji Fort of the Damned.</td>
+              <td><span class="voyage-medium">Średnia</span></td>
+              <td><span class="voyage-profit-high">Wysoka</span></td>
+            </tr>
+            <tr>
+              <td>Maiden Voyage</td>
+              <td style="color:#bdbdbd;font-weight:700;">Samouczek</td>
+              <td>Wprowadzenie do gry, nauka podstaw mechanik Sea of Thieves.</td>
+              <td><span class="voyage-easy">Łatwa</span></td>
+              <td><span class="voyage-profit-none">Brak</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="info-warning" style="margin-top:22px;">
+          <em>Źródło: <a href="https://seaofthieves.fandom.com/wiki/Voyages" target="_blank" rel="noopener" style="color:#ffe08a;">Sea of Thieves Wiki – Voyages</a></em>
+        </div>
+        <div class="info-warning" style="margin-top:18px; color:#ffb347; font-size:1.08em;">
+          <strong>Notatka od Wiesia:</strong> Nie sprawdzałem wiarygodności tych zleceń (np. długości i opłacalności), więc lepiej nie brać tego za totalnie pewne źródło prawdy.
+        </div>
+      </section>
+      <section class="info-weapons" id="weapons-section" style="width:100%;max-width:900px;margin:0 auto 36px auto;">
+        <h2 class="info-section-title">Bronie i ich statystyki</h2>
+        <table class="info-weapons-table" style="width:100%;margin-top:18px;">
+          <thead>
+            <tr>
+              <th>Broń</th>
+              <th>Typ</th>
+              <th>Obrażenia</th>
+              <th>Magazynek</th>
+              <th>Czas przeładowania</th>
+              <th>Specjalne cechy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Cutlass</b><br><span style="color:#ffe08a">Szabla</span></td>
+              <td>Biała, unlimited swings</td>
+              <td><span class="dmg-low">25</span> (cięcie), <span class="dmg-mid">60</span> (szarża)</td>
+              <td>n/a</td>
+              <td><span class="reload-fast">0.37s</span> (cięcie), <span class="reload-slow">2.02s</span> (szarża)</td>
+              <td>Blokowanie, szarża przebija kilku przeciwników</td>
+            </tr>
+            <tr>
+              <td><b>Flintlock</b><br><span style="color:#ffe08a">Pistolet</span></td>
+              <td>Palna, średni zasięg</td>
+              <td><span class="dmg-mid">55</span></td>
+              <td>5</td>
+              <td><span class="reload-mid">2.02s</span></td>
+              <td>Szybki strzał, klasyczny celownik</td>
+            </tr>
+            <tr>
+              <td><b>Blunderbuss</b><br><span style="color:#ffe08a">Garłacz</span></td>
+              <td>Palna, shotgun</td>
+              <td><span class="dmg-low">9</span> (kula), <span class="dmg-high">90</span> (pełny strzał)</td>
+              <td>5</td>
+              <td><span class="reload-slow">2.56s</span></td>
+              <td>Najlepszy w zwarciu, duży rozrzut</td>
+            </tr>
+            <tr>
+              <td><b>Eye of Reach</b><br><span style="color:#ffe08a">Snajperka</span></td>
+              <td>Palna, daleki zasięg</td>
+              <td><span class="dmg-high">70</span></td>
+              <td>5</td>
+              <td><span class="reload-slow">3.32s</span></td>
+              <td>Celownik optyczny, duże obrażenia na dystans</td>
+            </tr>
+            <tr>
+              <td><b>Double Barrel Pistol</b></td>
+              <td>Palna, podwójny strzał</td>
+              <td><span class="dmg-mid">45</span> (pojedynczy), <span class="dmg-high">90</span> (podwójny)</td>
+              <td>6</td>
+              <td>-</td>
+              <td>Możliwość oddania dwóch strzałów naraz</td>
+            </tr>
+            <tr>
+              <td><b>Throwing Knives</b><br><span style="color:#ffe08a">Noże</span></td>
+              <td>Dystansowa/rzucana</td>
+              <td><span class="dmg-low">14</span> (cios), <span class="dmg-high">70</span> (mocny rzut), <span class="dmg-mid">65</span> (rzut)</td>
+              <td>5</td>
+              <td>-</td>
+              <td>Walka wręcz i rzucanie</td>
+            </tr>
+            <tr>
+              <td><b>Grapple Gun</b><br><span style="color:#ffe08a">Harpun ręczny</span></td>
+              <td>Specjalna</td>
+              <td>-</td>
+              <td>5</td>
+              <td>-</td>
+              <td>Przyciąga graczy/przedmioty, nie zadaje obrażeń</td>
+            </tr>
+            <tr>
+              <td><b>Blowpipe</b><br><span style="color:#ffe08a">Dmuchawka</span></td>
+              <td>Dystansowa, strzałki</td>
+              <td><span class="dmg-mid">45</span> (Black Powder), <span class="dmg-high">80</span> (Poison)</td>
+              <td>4 (każdy typ)</td>
+              <td>-</td>
+              <td>Strzałki z efektami (trucizna, wabik, mimikra)</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:18px;font-size:1.04em;color:#bdbdbd;">
+          <b>Wskazówki:</b> Możesz nosić dwie bronie naraz. Wszystkie bronie mają własne animacje przeładowania i wyciągania. Przeładowanie i zmiana broni mogą być skracane przez tzw. "quick swap" (sprint cancel).<br>
+          <b>Więcej szczegółów i aktualizacje:</b> <a href="https://seaofthieves.wiki.gg/wiki/Weapons" target="_blank" rel="noopener">Weapons – Sea of Thieves Wiki</a>
+        </div>
+      </section>
+    </main>
+    <script>
+      // filepath: c:\Users\pplwi\Downloads\sot_website\informacje.html (inline script)
+      // Lista wysp z lokalizacjami (nazwa, lokalizacja)
+      const islandsData = [
+        { name: "Ancient Spire Outpost", loc: "Q17" }, { name: "Ashen Reaches", loc: "V23" },
+        { name: "Barnacle Cay", loc: "O15" }, { name: "Black Sand Atoll", loc: "O3" },
+        { name: "Black Water Enclave", loc: "R5" }, { name: "Blind Man's Lagoon", loc: "N6" },
+        { name: "Booty Isle", loc: "K20" }, { name: "Boulder Cay", loc: "G5" },
+        { name: "Brian's Bazaar", loc: "Y12" }, { name: "Brimstone Rock", loc: "Y18" },
+        { name: "Cannon Cove", loc: "G10" }, { name: "Castaway Isle", loc: "K14" },
+        { name: "Chicken Isle", loc: "I16" }, { name: "Cinder Islet", loc: "U14" },
+        { name: "Crescent Isle", loc: "B9" }, { name: "Crook's Hollow", loc: "M16" },
+        { name: "Cursewater Shores", loc: "Y13" }, { name: "Cutlass Cay", loc: "M18" },
+        { name: "Dagger Tooth Outpost", loc: "M8" }, { name: "Devil's Ridge", loc: "P19" },
+        { name: "Discovery Ridge", loc: "E17" }, { name: "Fetcher's Rest", loc: "V12" },
+        { name: "Flame's End", loc: "V19" }, { name: "Flintlock Peninsula", loc: "W14" },
+        { name: "Fools Lagoon", loc: "I14" }, { name: "Fort Of The Damned", loc: "L14" },
+        { name: "Galleon's Grave Outpost", loc: "R8" }, { name: "Glowstone Cay", loc: "Z18" },
+        { name: "Golden Sands Outpost", loc: "D10" }, { name: "Hidden Spring Keep", loc: "I8" },
+        { name: "Isle of Last Words", loc: "O9" }, { name: "Keel Haul Fort", loc: "C6" },
+        { name: "Kraken Watchtower", loc: "L6" }, { name: "Kraken's Fall", loc: "R12" },
+        { name: "Lagoon of Whispers", loc: "D12" }, { name: "Liar's Backbone", loc: "S11" },
+        { name: "Lone Cove", loc: "H6" }, { name: "Lonely Isle", loc: "G8" },
+        { name: "Lookout Point", loc: "I20" }, { name: "Lost Gold Fort", loc: "H17" },
+        { name: "Magma's Tide", loc: "Y20" }, { name: "Marauder's Arch", loc: "Q3" },
+        { name: "Mermaid's Hideaway", loc: "B13" }, { name: "Molten Sands Fortress", loc: "Z11" },
+        { name: "Morrow's Peak Outpost", loc: "V17" }, { name: "Mutineer Rock", loc: "N19" },
+        { name: "Old Faithful Isle", loc: "M4" }, { name: "Old Salts Atoll", loc: "F18" },
+        { name: "Paradise Spring", loc: "L17" }, { name: "Picaroon Palms", loc: "I4" },
+        { name: "Plunder Outpost", loc: "J18" }, { name: "Plunder Valley", loc: "G16" },
+        { name: "Plunderer's Plight", loc: "Q6" }, { name: "Rapier Cay", loc: "D8" },
+        { name: "Roaring Sands", loc: "U21" }, { name: "Roaring Traders", loc: "U20" },
+        { name: "Ruby's Fall", loc: "Y16" }, { name: "Rum Runner Isle", loc: "H9" },
+        { name: "Sailor's Bounty", loc: "C4" }, { name: "Sailor's Knot Stronghold", loc: "E14" },
+        { name: "Salty Sands", loc: "G4" }, { name: "Sanctuary Outpost", loc: "F7" },
+        { name: "Sandy Shallows", loc: "D5" }, { name: "Scorched Pass", loc: "X11" },
+        { name: "Scurvy Isley", loc: "K4" }, { name: "Sea Dog's Rest", loc: "C11" },
+        { name: "Shark Bait Cove", loc: "H19" }, { name: "Shark Fin Camp", loc: "P5" },
+        { name: "Shark Tooth Key", loc: "P13" }, { name: "Shipwreck Bay", loc: "M10" },
+        { name: "Shiver Retreat", loc: "Q11" }, { name: "Skull Keep", loc: "P9" },
+        { name: "Smugglers' Bay", loc: "F3" }, { name: "Snake Island", loc: "K16" },
+        { name: "Stephen's Spoils", loc: "L15" }, { name: "The Crooked Masts", loc: "O11" },
+        { name: "The Crow's Nest Fortress", loc: "O17" }, { name: "The Devil's Thirst", loc: "W21" },
+        { name: "The Finest Trading Post", loc: "F17" }, { name: "The Forsaken Brink", loc: "U16" },
+        { name: "The North Star Seapost", loc: "H10" }, { name: "The Reaper's Hideout", loc: "I12" },
+        { name: "The Spoils of Plenty Store", loc: "B7" }, { name: "The Sunken Grove", loc: "P7" },
+        { name: "The Wild Treasure Store", loc: "O4" }, { name: "Thieves' Haven", loc: "L20" },
+        { name: "Three Paces East Seapost", loc: "S9" }, { name: "Tri-Rock Isle", loc: "R10" },
+        { name: "Twin Groves", loc: "H11" }, { name: "Wanderers Refuge", loc: "F12" }
+      ];
+
+      function renderIslandsList(filter = "") {
+        const columns = [[], [], []];
+        // Filtrowanie i sortowanie
+        const filtered = islandsData.filter(isle =>
+          isle.name.toLowerCase().includes(filter.toLowerCase()) ||
+          isle.loc.toLowerCase().includes(filter.toLowerCase())
+        );
+        // Podział na 3 kolumny
+        filtered.forEach((isle, idx) => {
+          columns[idx % 3].push(isle);
+        });
+        // Render
+        const colsHtml = columns.map(col =>
+          `<div class="islands-col"><ul>` +
+          col.map(isle =>
+            `<li><span style="color:#ffe08a;">${isle.name}</span> <span style="color:#bdbdbd;">${isle.loc}</span></li>`
+          ).join("") +
+          `</ul></div>`
+        ).join("");
+        document.getElementById("islandsColumns").innerHTML = colsHtml;
+      }
+
+      renderIslandsList();
+
+      document.getElementById("islandSearch").addEventListener("input", function() {
+        renderIslandsList(this.value);
+      });
+
+      // Smooth scroll for TOC
+      document.querySelectorAll('.toc-list a').forEach(link => {
+        link.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        });
+      });
+
+      function updateClock() {
+        const clock = document.getElementById('clock');
+        if (!clock) return;
+        const now = new Date();
+        const pad = n => n.toString().padStart(2, '0');
+        const timeStr = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+        clock.innerHTML = `<span style="margin-right:10px;opacity:.7;filter:drop-shadow(0 0 2px #f0a50088)">🕒</span>${timeStr}`;
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+    </script>
+  </body>
+</html>
