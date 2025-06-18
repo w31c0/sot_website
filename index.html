@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" href="icon.png" type="image/png" />
     <script defer src="script.js"></script>
-    <!-- Discord/OG/Twitter preview meta tags -->
     <meta property="og:title" content="SOT helper dla cweli" />
     <meta property="og:description" content="Od wiesia dla cweli <3" />
     <meta property="og:image" content="https://sot.weico.online/icon.png" />
@@ -30,7 +29,6 @@
         -webkit-font-smoothing: antialiased;
         position: relative;
         overflow-x: hidden;
-        /* USUNIĘTO overflow-y: auto/scroll */
       }
       /* ...existing code... */
     </style>
@@ -95,6 +93,7 @@
       </div>
     </div>
     <script>
+      // Aktualizacja zegara w nawigacji
       function updateClock() {
         const clock = document.getElementById('clock');
         if (!clock) return;

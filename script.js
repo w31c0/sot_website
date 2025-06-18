@@ -1,3 +1,5 @@
+// Skrypt do obsługi dynamicznych danych, countdown, ogłoszeń, załogi, sesji, logowania
+
 // --- Dane domyślne ---
 const defaultData = {
   // Zmień datę/godzinę następnej sesji tutaj:
