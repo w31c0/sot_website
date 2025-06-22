@@ -387,78 +387,82 @@ const allowedUsers = [
 ];
 const commonPassword = "kubusno2";
 
+// --- NOWE LOGOWANIE PRZEZ BACKEND ---
+function login(username, password) {
+  fetch('http://localhost:3000/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert('Zalogowano jako ' + data.username);
+        localStorage.setItem('user', data.username);
+        renderLoginArea();
+        closeLoginModal();
+      } else {
+        showLoginError(data.error || 'Błędny login lub hasło');
+      }
+    })
+    .catch(() => showLoginError('Błąd połączenia z serwerem'));
+}
+
+// --- Obsługa UI logowania ---
 function renderLoginArea() {
+  const loginArea = document.getElementById('loginArea');
   if (!loginArea) return;
-  const loggedUser = sessionStorage.getItem("loggedUser");
-  if (loggedUser) {
-    loginArea.innerHTML = `
-      <div class="login-box-logged">
-        <span class="login-welcome">Witaj <b>${loggedUser}</b></span>
-        <button id="logoutBtn" class="login-btn-modal login-btn-logout">Wyloguj</button>
-      </div>
-    `;
-    document.getElementById("logoutBtn").onclick = function() {
-      sessionStorage.removeItem("loggedUser");
-      renderLoginArea();
-    };
+  const user = localStorage.getItem('user');
+  if (user) {
+    loginArea.innerHTML = `<div class="login-box-logged"><span class="login-welcome">Witaj, ${user}</span><button class="login-btn-logout" onclick="logout()">Wyloguj</button></div>`;
   } else {
-    loginArea.innerHTML = `<button id="openLoginModal" class="login-btn-modal">Zaloguj</button>`;
-    document.getElementById("openLoginModal").onclick = function() {
-      showLoginModal();
-    };
+    loginArea.innerHTML = `<button class="login-btn-modal" onclick="showLoginModal()">Zaloguj</button>`;
   }
 }
 
-document.addEventListener("DOMContentLoaded", renderLoginArea);
+function logout() {
+  localStorage.removeItem('user');
+  renderLoginArea();
+}
+
+document.addEventListener('DOMContentLoaded', renderLoginArea);
 
 // --- Modal logowania ---
 function showLoginModal() {
   if (document.getElementById('loginModal')) return;
   const modal = document.createElement('div');
   modal.id = 'loginModal';
+  modal.className = 'active';
   modal.innerHTML = `
-    <div class="login-modal-bg"></div>
+    <div class="login-modal-bg" onclick="closeLoginModal()"></div>
     <div class="login-modal-content">
-      <button class="login-modal-close" id="closeLoginModal" title="Zamknij">×</button>
+      <button class="login-modal-close" onclick="closeLoginModal()">&times;</button>
       <h2>Zaloguj się</h2>
-      <form id="loginFormModal" class="login-modal-form">
-        <select id="loginNickModal" class="login-select" required>
-          <option value="" disabled selected>Nick</option>
-          ${allowedUsers.map(u => `<option value="${u}">${u}</option>`).join("")}
-        </select>
-        <input type="password" id="loginPassModal" class="login-input" placeholder="Hasło" required>
-        <button type="submit" class="login-btn">Zaloguj</button>
+      <form class="login-modal-form" id="loginForm">
+        <input class="login-input" type="text" id="loginUsername" placeholder="Login" autocomplete="username" required />
+        <input class="login-input" type="password" id="loginPassword" placeholder="Hasło" autocomplete="current-password" required />
+        <button class="login-btn" type="submit">Zaloguj</button>
+        <div id="loginError" style="color:#ff4f4f;font-size:0.98em;margin-top:4px;min-height:18px;"></div>
       </form>
     </div>
   `;
   document.body.appendChild(modal);
-  setTimeout(() => modal.classList.add('active'), 10);
-
-  document.getElementById("closeLoginModal").onclick = closeLoginModal;
-  modal.querySelector('.login-modal-bg').onclick = closeLoginModal;
-
-  const form = document.getElementById("loginFormModal");
-  form.onsubmit = function(e) {
+  document.getElementById('loginForm').onsubmit = function(e) {
     e.preventDefault();
-    const nick = document.getElementById("loginNickModal").value;
-    const pass = document.getElementById("loginPassModal").value;
-    if (allowedUsers.includes(nick) && pass === commonPassword) {
-      sessionStorage.setItem("loggedUser", nick);
-      closeLoginModal();
-      renderLoginArea();
-    } else {
-      form.classList.add("login-error");
-      setTimeout(() => form.classList.remove("login-error"), 1200);
-    }
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    login(username, password);
   };
 }
 
 function closeLoginModal() {
   const modal = document.getElementById('loginModal');
-  if (modal) {
-    modal.classList.remove('active');
-    setTimeout(() => modal.remove(), 200);
-  }
+  if (modal) modal.remove();
+}
+
+function showLoginError(msg) {
+  const err = document.getElementById('loginError');
+  if (err) err.textContent = msg;
 }
 
 // --- Style do modala logowania i przycisków (Zaloguj i Wyloguj identyczne) ---
